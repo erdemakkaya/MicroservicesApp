@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Catalog.API.Settings;
+using Microsoft.Extensions.Options;
 
 namespace Catalog.API
 {
@@ -26,6 +28,9 @@ namespace Catalog.API
         {
 
             services.AddControllers();
+            services.Configure<CatalogDatabaseSettings>(Configuration.GetSection(nameof(CatalogDatabaseSettings)));
+            services.AddSingleton<ICatalogDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<CatalogDatabaseSettings>>().Value);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
