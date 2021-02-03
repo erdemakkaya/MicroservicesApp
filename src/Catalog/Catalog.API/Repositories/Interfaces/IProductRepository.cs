@@ -11,7 +11,7 @@ namespace Catalog.API.Repositories.Interfaces
         Task<IEnumerable<Product>> GetProductsAsync();
         Task<IEnumerable<Product>> GetProductByNameAsync(string name);
         Task<Product> GetProductAsync(string id);
-        Task<IEnumerable<Product>> GetProductCategoryAsync(string categoryName);
+        Task<IEnumerable<Product>> GetProductByCategoryAsync(string categoryName);
         Task CreateAsync(Product product);
         Task<bool> UpdateAsync(Product product);
         Task<bool> DeleteAsync(string id);

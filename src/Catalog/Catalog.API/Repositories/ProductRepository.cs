@@ -33,12 +33,14 @@ namespace Catalog.API.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductCategoryAsync(string categoryName)
+        public async Task<IEnumerable<Product>> GetProductByCategoryAsync(string categoryName)
         {
-            var filter = Builders<Product>.Filter.ElemMatch(p => p.Name, categoryName);
+            var filters = new List<FilterDefinition<Product>>();
+            if (!categoryName.Equals(""))
+                filters.Add(Builders<Product>.Filter.Eq(p=>p.Category, categoryName));
             return await _context
                 .Products
-                .Find(filter)
+                .Find(filters.FirstOrDefault())
                 .ToListAsync();
         }
         public async Task<IEnumerable<Product>> GetProductsAsync()
@@ -65,5 +67,6 @@ namespace Catalog.API.Repositories
            var deleteResult= await _context.Products.DeleteOneAsync(id);
            return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
+
     }
 }
