@@ -9,6 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Basket.API.Data;
+using Basket.API.Data.Interfaces;
+using Basket.API.Repositories.Interfaces;
 using StackExchange.Redis;
 
 namespace Basket.API
@@ -30,6 +33,10 @@ namespace Basket.API
                 var configuration = ConfigurationOptions.Parse(Configuration.GetConnectionString("Redis"), true);
                 return ConnectionMultiplexer.Connect(configuration);
             });
+
+            services.AddTransient<IBasketContext, BasketContext>();
+            services.AddTransient<IBasketRepository, IBasketRepository>();
+
             services.AddControllers();
         }
 
