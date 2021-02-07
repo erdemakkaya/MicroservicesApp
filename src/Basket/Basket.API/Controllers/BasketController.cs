@@ -22,7 +22,7 @@ namespace Basket.API.Controllers
         public async Task<ActionResult<BasketCart>> Get(string userName)
         {
             var basket = await _repository.GetBasketAsync(userName);
-            return Ok(basket);
+            return Ok(basket??new BasketCart(userName));
         }
 
         [HttpPost]
