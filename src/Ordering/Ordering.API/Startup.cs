@@ -1,15 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -18,6 +12,10 @@ using Ordering.Core.Repositories.Base;
 using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Repositories;
 using Ordering.Infrastructure.Repositories.Base;
+using EventBusRabbitMQ;
+using EventBusRabbitMQ.Procuder;
+using Ordering.API.RabbitMQ;
+using RabbitMQ.Client;
 
 namespace Ordering.API
 {
@@ -47,9 +45,28 @@ namespace Ordering.API
              services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
              services.AddScoped(typeof(IOrderRepository),typeof(OrderRepository));
 
-             #region Swagger Dependencies
+             services.AddSingleton<IRabbitMQConnection>(sp =>
+             {
+                 var factory = new ConnectionFactory()
+                 {
+                     HostName = Configuration["EventBus:HostName"]
+                 };
+                 if (!string.IsNullOrEmpty(Configuration["EventBus:UserName"]))
+                 {
+                     factory.UserName = Configuration["EventBus:UserName"];
+                 }
 
-             services.AddSwaggerGen(c =>
+                 if (!string.IsNullOrEmpty(Configuration["EventBus:Password"]))
+                 {
+                     factory.UserName = Configuration["EventBus:Password"];
+                 }
+                 return new RabbitMQConnection(factory);
+             });
+
+             services.AddSingleton<EventBusRabbitMQConsumer>();
+            #region Swagger Dependencies
+
+            services.AddSwaggerGen(c =>
              {
                  c.SwaggerDoc("v1", new OpenApiInfo { Title = "Order API", Version = "v1" });
              });
