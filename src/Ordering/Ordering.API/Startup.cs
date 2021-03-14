@@ -14,6 +14,7 @@ using Ordering.Infrastructure.Repositories;
 using Ordering.Infrastructure.Repositories.Base;
 using EventBusRabbitMQ;
 using EventBusRabbitMQ.Procuder;
+using Ordering.API.Extensions;
 using Ordering.API.RabbitMQ;
 using RabbitMQ.Client;
 
@@ -90,6 +91,8 @@ namespace Ordering.API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseRabbitMQListener();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
