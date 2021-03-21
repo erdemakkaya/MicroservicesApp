@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using AspnetRunBasics.ApiCollection.Infrastructure;
+﻿using AspnetRunBasics.ApiCollection.Infrastructure;
 using AspnetRunBasics.ApiCollection.Interfaces;
 using AspnetRunBasics.Models;
 using AspnetRunBasics.Settings;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace AspnetRunBasics.ApiCollection
 {
@@ -23,10 +21,10 @@ namespace AspnetRunBasics.ApiCollection
         public async Task<IEnumerable<OrderResponseModel>> GetOrdersByUserName(string userName)
         {
             var message = new HttpRequestBuilder(_settings.BaseAddress)
-                .SetPath(_settings.OrderPath)
-                .AddQueryString("username", userName)
-                .HttpMethod(HttpMethod.Get)
-                .GetHttpMessage();
+                           .SetPath(_settings.OrderPath)
+                           .AddQueryString("username", userName)
+                           .HttpMethod(HttpMethod.Get)
+                           .GetHttpMessage();
 
             return await SendRequest<IEnumerable<OrderResponseModel>>(message);
         }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using AspnetRunBasics.ApiCollection.Infrastructure;
+﻿using AspnetRunBasics.ApiCollection.Infrastructure;
 using AspnetRunBasics.ApiCollection.Interfaces;
 using AspnetRunBasics.Models;
 using AspnetRunBasics.Settings;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AspnetRunBasics.ApiCollection
 {
@@ -58,7 +56,7 @@ namespace AspnetRunBasics.ApiCollection
         public async Task<CatalogModel> CreateCatalog(CatalogModel catalogModel)
         {
             var message = new HttpRequestBuilder(_settings.BaseAddress)
-                                .SetPath(_settings.CatalogPath)
+                                .SetPath(_settings.CatalogPath)                                
                                 .HttpMethod(HttpMethod.Post)
                                 .GetHttpMessage();
 
