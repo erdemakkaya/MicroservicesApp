@@ -27,7 +27,6 @@ namespace Basket.API.Controllers
             _eventBus = eventBus;
         }
 
-        [HttpGet("userName")]
         [ProducesResponseType(typeof(BasketCart),(int)HttpStatusCode.OK)]
         public async Task<ActionResult<BasketCart>> Get(string userName)
         {
